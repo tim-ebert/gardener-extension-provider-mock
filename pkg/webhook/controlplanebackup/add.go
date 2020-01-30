@@ -15,9 +15,9 @@
 package controlplanebackup
 
 import (
-	"github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/apis/config"
-	"github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/aws"
-	"github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/imagevector"
+	"github.com/gardener/gardener-extension-provider-mock/pkg/apis/config"
+	"github.com/gardener/gardener-extension-provider-mock/pkg/imagevector"
+	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	extensionswebhook "github.com/gardener/gardener-extensions/pkg/webhook"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane/genericmutator"
@@ -33,20 +33,20 @@ var (
 	DefaultAddOptions = AddOptions{}
 )
 
-// AddOptions are options to apply when adding the AWS backup webhook to the manager.
+// AddOptions are options to apply when adding the Mock backup webhook to the manager.
 type AddOptions struct {
 	// ETCDBackup is the etcd backup configuration.
 	ETCDBackup config.ETCDBackup
 }
 
-var logger = log.Log.WithName("aws-controlplanebackup-webhook")
+var logger = log.Log.WithName("mock-controlplanebackup-webhook")
 
 // AddToManagerWithOptions creates a webhook with the given options and adds it to the manager.
 func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) (*extensionswebhook.Webhook, error) {
 	logger.Info("Adding webhook to manager")
 	return controlplane.Add(mgr, controlplane.AddArgs{
 		Kind:     controlplane.KindBackup,
-		Provider: aws.Type,
+		Provider: mock.Type,
 		Types:    []runtime.Object{&appsv1.StatefulSet{}},
 		Mutator:  genericmutator.NewMutator(NewEnsurer(&opts.ETCDBackup, imagevector.ImageVector(), logger), nil, nil, nil, logger),
 	})

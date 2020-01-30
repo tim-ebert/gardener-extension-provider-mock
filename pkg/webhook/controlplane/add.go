@@ -15,7 +15,7 @@
 package controlplane
 
 import (
-	"github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/aws"
+	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	extensionswebhook "github.com/gardener/gardener-extensions/pkg/webhook"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane/genericmutator"
@@ -27,7 +27,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
 
-var logger = log.Log.WithName("aws-controlplane-webhook")
+var logger = log.Log.WithName("mock-controlplane-webhook")
 
 // AddToManager creates a webhook and adds it to the manager.
 func AddToManager(mgr manager.Manager) (*extensionswebhook.Webhook, error) {
@@ -35,7 +35,7 @@ func AddToManager(mgr manager.Manager) (*extensionswebhook.Webhook, error) {
 	fciCodec := controlplane.NewFileContentInlineCodec()
 	return controlplane.Add(mgr, controlplane.AddArgs{
 		Kind:     controlplane.KindShoot,
-		Provider: aws.Type,
+		Provider: mock.Type,
 		Types:    []runtime.Object{&appsv1.Deployment{}, &extensionsv1alpha1.OperatingSystemConfig{}},
 		Mutator: genericmutator.NewMutator(NewEnsurer(logger), controlplane.NewUnitSerializer(),
 			controlplane.NewKubeletConfigCodec(fciCodec), fciCodec, logger),

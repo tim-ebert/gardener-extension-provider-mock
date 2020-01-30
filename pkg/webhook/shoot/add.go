@@ -29,10 +29,10 @@ var (
 	DefaultAddOptions = AddOptions{}
 )
 
-// AddOptions are options to apply when adding the AWS shoot webhook to the manager.
+// AddOptions are options to apply when adding the Mock shoot webhook to the manager.
 type AddOptions struct{}
 
-var logger = log.Log.WithName("aws-shoot-webhook")
+var logger = log.Log.WithName("mock-shoot-webhook")
 
 // AddToManagerWithOptions creates a webhook with the given options and adds it to the manager.
 func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) (*extensionswebhook.Webhook, error) {
