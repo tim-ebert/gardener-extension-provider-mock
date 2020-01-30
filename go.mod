@@ -3,9 +3,10 @@ module github.com/gardener/gardener-extension-provider-mock
 go 1.13
 
 require (
+	github.com/ahmetb/gen-crd-api-reference-docs v0.1.5
+	github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f
 	github.com/gardener/gardener v0.35.1-0.20200128130120-5b69a02f511a
-	github.com/gardener/gardener-extensions v1.2.1-0.20200129094554-c446e6f3b53c
-	github.com/gardener/machine-controller-manager v0.25.1-0.20200115123605-0510de7ddfca
+	github.com/gardener/gardener-extensions v1.2.1-0.20200130094329-f359bd0eb552
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/packr/v2 v2.1.0
 	github.com/golang/mock v1.3.1
@@ -19,7 +20,9 @@ require (
 	k8s.io/apimachinery v0.0.0-20191016060620-86f2f1b9c076
 	k8s.io/apiserver v0.0.0-20191010014313-3893be10d307
 	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
+	k8s.io/code-generator v0.0.0-20190912054826-cd179ad6a269
 	k8s.io/component-base v0.0.0-20190918160511-547f6c5d7090
+	k8s.io/kubelet v0.0.0-20190918162654-250a1838aa2c
 	sigs.k8s.io/controller-runtime v0.4.0
 )
 

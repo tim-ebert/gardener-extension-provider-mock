@@ -43,7 +43,7 @@ func (a *actuator) updateProviderStatus(ctx context.Context, infrastructure *ext
 					APIVersion: mockv1alpha1.SchemeGroupVersion.String(),
 					Kind:       "InfrastructureStatus",
 				},
-			}
+			},
 		}
 		return nil
 	})

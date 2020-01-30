@@ -16,7 +16,7 @@
 
 rm -f $GOPATH/bin/*-gen
 
-PROJECT_ROOT=$(dirname $0)/../../..
+PROJECT_ROOT=$(dirname $0)/..
 
 bash "${PROJECT_ROOT}"/vendor/k8s.io/code-generator/generate-internal-groups.sh \
   deepcopy,defaulter \
