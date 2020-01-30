@@ -35,11 +35,10 @@ import (
 	webhookcmd "github.com/gardener/gardener-extensions/pkg/webhook/cmd"
 
 	"github.com/spf13/cobra"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
 
-// NewControllerManagerCommand creates a new command for running a AWS provider controller.
+// NewControllerManagerCommand creates a new command for running a Mock provider controller.
 func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 	var (
 		restOpts = &controllercmd.RESTOptions{}
@@ -128,13 +127,6 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			if err := mockinstall.AddToScheme(scheme); err != nil {
 				controllercmd.LogErrAndExit(err, "Could not update manager scheme")
 			}
-
-			// add common meta types to schema for controller-runtime to use v1.ListOptions
-			metav1.AddToGroupVersion(scheme, machinev1alpha1.SchemeGroupVersion)
-			// add types required for AWS Health check
-			scheme.AddKnownTypes(machinev1alpha1.SchemeGroupVersion,
-				&machinev1alpha1.MachineDeploymentList{},
-			)
 
 			configFileOpts.Completed().ApplyETCDStorage(&mockcontrolplaneexposure.DefaultAddOptions.ETCDStorage)
 			configFileOpts.Completed().ApplyETCDBackup(&mockcontrolplanebackup.DefaultAddOptions.ETCDBackup)

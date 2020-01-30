@@ -12,24 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package mock
+//go:generate packr2
 
-import "path/filepath"
+package imagevector
 
-const (
-	// Name is the name of the Mock provider.
-	Name = "provider-mock"
+import (
+	"strings"
 
-	// CloudProviderConfigName is the name of the configmap containing the cloud provider config.
-	CloudProviderConfigName = "cloud-provider-config"
-
-	// MachineControllerManagerName is a constant for the name of the machine-controller-manager.
-	MachineControllerManagerName = "machine-controller-manager"
+	"github.com/gardener/gardener/pkg/utils/imagevector"
+	"github.com/gobuffalo/packr/v2"
+	"k8s.io/apimachinery/pkg/util/runtime"
 )
 
-var (
-	// ChartsPath is the path to the charts
-	ChartsPath = filepath.Join("controllers", Name, "charts")
-	// Interna1lChartsPath is the path to the internal charts
-	InternalChartsPath = filepath.Join(ChartsPath, "internal")
-)
+var imageVector imagevector.ImageVector
+
+func init() {
+	box := packr.New("charts", "../../charts")
+
+	imagesYaml, err := box.FindString("images.yaml")
+	runtime.Must(err)
+
+	imageVector, err = imagevector.Read(strings.NewReader(imagesYaml))
+	runtime.Must(err)
+
+	imageVector, err = imagevector.WithEnvOverride(imageVector)
+	runtime.Must(err)
+}
+
+// ImageVector is the image vector that contains all the needed images.
+func ImageVector() imagevector.ImageVector {
+	return imageVector
+}

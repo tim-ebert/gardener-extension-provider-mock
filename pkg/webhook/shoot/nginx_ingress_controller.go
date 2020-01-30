@@ -12,24 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package mock
+package shoot
 
-import "path/filepath"
+import (
+	"context"
 
-const (
-	// Name is the name of the Mock provider.
-	Name = "provider-mock"
-
-	// CloudProviderConfigName is the name of the configmap containing the cloud provider config.
-	CloudProviderConfigName = "cloud-provider-config"
-
-	// MachineControllerManagerName is a constant for the name of the machine-controller-manager.
-	MachineControllerManagerName = "machine-controller-manager"
+	corev1 "k8s.io/api/core/v1"
 )
 
-var (
-	// ChartsPath is the path to the charts
-	ChartsPath = filepath.Join("controllers", Name, "charts")
-	// Interna1lChartsPath is the path to the internal charts
-	InternalChartsPath = filepath.Join(ChartsPath, "internal")
-)
+func (m *mutator) mutateNginxIngressControllerConfigMap(ctx context.Context, configmap *corev1.ConfigMap) error {
+	if configmap.Data == nil {
+		configmap.Data = make(map[string]string, 1)
+	}
+
+	configmap.Data["use-proxy-protocol"] = "true"
+
+	return nil
+}

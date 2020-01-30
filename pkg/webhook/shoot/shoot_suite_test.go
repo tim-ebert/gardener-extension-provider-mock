@@ -12,24 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package mock
+package shoot_test
 
-import "path/filepath"
+import (
+	"testing"
 
-const (
-	// Name is the name of the Mock provider.
-	Name = "provider-mock"
-
-	// CloudProviderConfigName is the name of the configmap containing the cloud provider config.
-	CloudProviderConfigName = "cloud-provider-config"
-
-	// MachineControllerManagerName is a constant for the name of the machine-controller-manager.
-	MachineControllerManagerName = "machine-controller-manager"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-var (
-	// ChartsPath is the path to the charts
-	ChartsPath = filepath.Join("controllers", Name, "charts")
-	// Interna1lChartsPath is the path to the internal charts
-	InternalChartsPath = filepath.Join(ChartsPath, "internal")
-)
+func TestShoot(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "AWS Shoot Webhook Suite")
+}
