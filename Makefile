@@ -24,6 +24,15 @@ VERIFY                      := true
 LEADER_ELECTION             := false
 IGNORE_OPERATION_ANNOTATION := true
 
+WEBHOOK_CONFIG_MODE	:= url
+WEBHOOK_CONFIG_URL	:= docker.for.mac.localhost
+EXTENSION_NAMESPACE	:=
+
+WEBHOOK_PARAM := --webhook-config-url=$(WEBHOOK_CONFIG_URL)
+ifeq ($(WEBHOOK_CONFIG_MODE), service)
+  WEBHOOK_PARAM := --webhook-config-namespace=$(EXTENSION_NAMESPACE)
+endif
+
 ### Build commands
 
 .PHONY: format
@@ -88,10 +97,16 @@ revendor:
 	@chmod +x $(REPO_ROOT)/vendor/github.com/gardener/gardener-extensions/hack/*
 	@chmod +x $(REPO_ROOT)/vendor/github.com/gardener/gardener-extensions/.ci/*
 
-.PHONY: start
-start:
+.PHONY: start-provider-mock
+start-provider-mock:
 	@LEADER_ELECTION_NAMESPACE=garden GO111MODULE=on go run \
 		-mod=vendor \
 		-ldflags $(LD_FLAGS) \
 		./cmd/$(EXTENSION_PREFIX)-$(NAME) \
-		--leader-election=$(LEADER_ELECTION)
+		--config-file=./example/00-componentconfig.yaml \
+		--ignore-operation-annotation=$(IGNORE_OPERATION_ANNOTATION) \
+		--leader-election=$(LEADER_ELECTION) \
+		--webhook-config-server-host=0.0.0.0 \
+		--webhook-config-server-port=8443 \
+		--webhook-config-mode=$(WEBHOOK_CONFIG_MODE) \
+		$(WEBHOOK_PARAM)
