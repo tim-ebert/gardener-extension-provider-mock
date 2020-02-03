@@ -4,6 +4,8 @@ kind: VerticalPodAutoscaler
 metadata:
   name: {{ include "name" . }}-vpa
   namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "labels" . | indent 4 }}
 spec:
   targetRef:
     apiVersion: apps/v1

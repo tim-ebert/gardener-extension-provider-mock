@@ -5,6 +5,7 @@ metadata:
   namespace: garden
   labels:
     extensions.gardener.cloud/configuration: logging
+{{ include "labels" . | indent 4 }}
 data:
   filter-kubernetes.conf: |
     [FILTER]

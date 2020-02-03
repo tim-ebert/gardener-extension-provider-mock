@@ -15,7 +15,7 @@
 EXTENSION_PREFIX            := gardener-extension
 NAME                        := provider-mock
 REGISTRY                    := eu.gcr.io/gardener-project
-IMAGE_PREFIX                := $(REGISTRY)/extensions
+IMAGE_PREFIX                := $(REGISTRY)/gardener/extensions
 REPO_ROOT                   := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 HACK_DIR                    := $(REPO_ROOT)/hack
 VERSION                     := $(shell cat "$(REPO_ROOT)/VERSION")
@@ -86,7 +86,7 @@ docker-login:
 
 .PHONY: docker-images
 docker-images:
-	@docker build -t $(IMAGE_PREFIX)/$(NAME):$(VERSION) -t $(IMAGE_PREFIX)/$(NAME):latest -f Dockerfile -m 6g --target $(EXTENSION_PREFIX)-$(NAME) .
+	@docker build --build-arg VERIFY=$(VERIFY) -t $(IMAGE_PREFIX)/$(NAME):$(VERSION) -t $(IMAGE_PREFIX)/$(NAME):latest -f Dockerfile -m 6g --target $(EXTENSION_PREFIX)-$(NAME) .
 
 ### Debug / Development commands
 
