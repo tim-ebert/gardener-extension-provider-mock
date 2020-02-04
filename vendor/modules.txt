@@ -12,51 +12,6 @@ github.com/PuerkitoBio/purell
 github.com/PuerkitoBio/urlesc
 # github.com/ahmetb/gen-crd-api-reference-docs v0.1.5
 github.com/ahmetb/gen-crd-api-reference-docs
-# github.com/aws/aws-sdk-go v1.21.10
-github.com/aws/aws-sdk-go/aws
-github.com/aws/aws-sdk-go/aws/awserr
-github.com/aws/aws-sdk-go/aws/awsutil
-github.com/aws/aws-sdk-go/aws/client
-github.com/aws/aws-sdk-go/aws/client/metadata
-github.com/aws/aws-sdk-go/aws/corehandlers
-github.com/aws/aws-sdk-go/aws/credentials
-github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds
-github.com/aws/aws-sdk-go/aws/credentials/endpointcreds
-github.com/aws/aws-sdk-go/aws/credentials/processcreds
-github.com/aws/aws-sdk-go/aws/credentials/stscreds
-github.com/aws/aws-sdk-go/aws/csm
-github.com/aws/aws-sdk-go/aws/defaults
-github.com/aws/aws-sdk-go/aws/ec2metadata
-github.com/aws/aws-sdk-go/aws/endpoints
-github.com/aws/aws-sdk-go/aws/request
-github.com/aws/aws-sdk-go/aws/session
-github.com/aws/aws-sdk-go/aws/signer/v4
-github.com/aws/aws-sdk-go/internal/ini
-github.com/aws/aws-sdk-go/internal/s3err
-github.com/aws/aws-sdk-go/internal/sdkio
-github.com/aws/aws-sdk-go/internal/sdkrand
-github.com/aws/aws-sdk-go/internal/sdkuri
-github.com/aws/aws-sdk-go/internal/shareddefaults
-github.com/aws/aws-sdk-go/private/protocol
-github.com/aws/aws-sdk-go/private/protocol/ec2query
-github.com/aws/aws-sdk-go/private/protocol/eventstream
-github.com/aws/aws-sdk-go/private/protocol/eventstream/eventstreamapi
-github.com/aws/aws-sdk-go/private/protocol/json/jsonutil
-github.com/aws/aws-sdk-go/private/protocol/query
-github.com/aws/aws-sdk-go/private/protocol/query/queryutil
-github.com/aws/aws-sdk-go/private/protocol/rest
-github.com/aws/aws-sdk-go/private/protocol/restxml
-github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil
-github.com/aws/aws-sdk-go/service/ec2
-github.com/aws/aws-sdk-go/service/ec2/ec2iface
-github.com/aws/aws-sdk-go/service/elb
-github.com/aws/aws-sdk-go/service/elb/elbiface
-github.com/aws/aws-sdk-go/service/elbv2
-github.com/aws/aws-sdk-go/service/elbv2/elbv2iface
-github.com/aws/aws-sdk-go/service/s3
-github.com/aws/aws-sdk-go/service/s3/s3iface
-github.com/aws/aws-sdk-go/service/sts
-github.com/aws/aws-sdk-go/service/sts/stsiface
 # github.com/beorn7/perks v1.0.1
 github.com/beorn7/perks/quantile
 # github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f
@@ -115,15 +70,9 @@ github.com/gardener/gardener/pkg/utils/kubernetes/health
 github.com/gardener/gardener/pkg/utils/retry
 github.com/gardener/gardener/pkg/utils/secrets
 github.com/gardener/gardener/pkg/utils/version
-# github.com/gardener/gardener-extensions v1.2.1-0.20200130094329-f359bd0eb552
-github.com/gardener/gardener-extensions/.ci
-github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/apis/aws
-github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/apis/aws/helper
-github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/apis/aws/install
-github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/apis/aws/v1alpha1
-github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/aws
-github.com/gardener/gardener-extensions/controllers/provider-aws/pkg/aws/client
+# github.com/gardener/gardener-extensions v1.3.0
 github.com/gardener/gardener-extensions/hack
+github.com/gardener/gardener-extensions/hack/.ci
 github.com/gardener/gardener-extensions/hack/api-reference/template
 github.com/gardener/gardener-extensions/hack/code-generator
 github.com/gardener/gardener-extensions/pkg/controller
@@ -259,8 +208,6 @@ github.com/huandu/xstrings
 github.com/imdario/mergo
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
-# github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af
-github.com/jmespath/go-jmespath
 # github.com/joho/godotenv v1.3.0
 github.com/joho/godotenv
 # github.com/json-iterator/go v1.1.9
