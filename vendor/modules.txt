@@ -57,9 +57,11 @@ github.com/gardener/gardener/pkg/client/core/clientset/versioned
 github.com/gardener/gardener/pkg/client/core/clientset/versioned/scheme
 github.com/gardener/gardener/pkg/client/core/clientset/versioned/typed/core/v1alpha1
 github.com/gardener/gardener/pkg/client/core/clientset/versioned/typed/core/v1beta1
+github.com/gardener/gardener/pkg/client/core/listers/core/v1beta1
 github.com/gardener/gardener/pkg/client/extensions/clientset/versioned/scheme
 github.com/gardener/gardener/pkg/client/kubernetes
 github.com/gardener/gardener/pkg/logger
+github.com/gardener/gardener/pkg/operation/common
 github.com/gardener/gardener/pkg/utils
 github.com/gardener/gardener/pkg/utils/chart
 github.com/gardener/gardener/pkg/utils/context
@@ -70,6 +72,7 @@ github.com/gardener/gardener/pkg/utils/kubernetes/health
 github.com/gardener/gardener/pkg/utils/retry
 github.com/gardener/gardener/pkg/utils/secrets
 github.com/gardener/gardener/pkg/utils/version
+github.com/gardener/gardener/pkg/version
 # github.com/gardener/gardener-extensions v1.3.1-0.20200206110918-2d42e80a9a86
 github.com/gardener/gardener-extensions/hack
 github.com/gardener/gardener-extensions/hack/.ci
@@ -87,6 +90,7 @@ github.com/gardener/gardener-extensions/pkg/controller/healthcheck/config/v1alph
 github.com/gardener/gardener-extensions/pkg/controller/healthcheck/general
 github.com/gardener/gardener-extensions/pkg/controller/healthcheck/worker
 github.com/gardener/gardener-extensions/pkg/controller/infrastructure
+github.com/gardener/gardener-extensions/pkg/controller/network
 github.com/gardener/gardener-extensions/pkg/controller/operatingsystemconfig/oscommon/cloudinit
 github.com/gardener/gardener-extensions/pkg/controller/worker
 github.com/gardener/gardener-extensions/pkg/event
@@ -101,7 +105,7 @@ github.com/gardener/gardener-extensions/pkg/webhook/cmd
 github.com/gardener/gardener-extensions/pkg/webhook/controlplane
 github.com/gardener/gardener-extensions/pkg/webhook/controlplane/genericmutator
 github.com/gardener/gardener-extensions/pkg/webhook/shoot
-# github.com/gardener/gardener-resource-manager v0.9.1-0.20200124091350-6ea41bbae81f
+# github.com/gardener/gardener-resource-manager v0.10.0
 github.com/gardener/gardener-resource-manager/pkg/apis/resources
 github.com/gardener/gardener-resource-manager/pkg/apis/resources/v1alpha1
 github.com/gardener/gardener-resource-manager/pkg/manager

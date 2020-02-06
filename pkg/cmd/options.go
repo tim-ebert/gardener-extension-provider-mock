@@ -18,6 +18,7 @@ import (
 	controlplanecontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/controlplane"
 	healthcheckcontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/healthcheck"
 	infrastructurecontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/infrastructure"
+	networkcontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/network"
 	workercontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/worker"
 	controlplanewebhook "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/controlplane"
 	controlplaneexposurewebhook "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/controlplaneexposure"
@@ -26,6 +27,7 @@ import (
 	extensionscontrolplanecontroller "github.com/gardener/gardener-extensions/pkg/controller/controlplane"
 	extensionshealthcheckcontroller "github.com/gardener/gardener-extensions/pkg/controller/healthcheck"
 	extensionsinfrastructurecontroller "github.com/gardener/gardener-extensions/pkg/controller/infrastructure"
+	extensionsnetworkcontroller "github.com/gardener/gardener-extensions/pkg/controller/network"
 	extensionsworkercontroller "github.com/gardener/gardener-extensions/pkg/controller/worker"
 	webhookcmd "github.com/gardener/gardener-extensions/pkg/webhook/cmd"
 	extensioncontrolplanewebhook "github.com/gardener/gardener-extensions/pkg/webhook/controlplane"
@@ -38,6 +40,7 @@ func ControllerSwitchOptions() *controllercmd.SwitchOptions {
 		controllercmd.Switch(extensionscontrolplanecontroller.ControllerName, controlplanecontroller.AddToManager),
 		controllercmd.Switch(extensionsinfrastructurecontroller.ControllerName, infrastructurecontroller.AddToManager),
 		controllercmd.Switch(extensionsworkercontroller.ControllerName, workercontroller.AddToManager),
+		controllercmd.Switch(extensionsnetworkcontroller.ControllerName, networkcontroller.AddToManager),
 		controllercmd.Switch(extensionshealthcheckcontroller.ControllerName, healthcheckcontroller.AddToManager),
 	)
 }

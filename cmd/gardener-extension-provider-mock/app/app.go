@@ -24,6 +24,7 @@ import (
 	mockcontrolplane "github.com/gardener/gardener-extension-provider-mock/pkg/controller/controlplane"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/controller/healthcheck"
 	mockinfrastructure "github.com/gardener/gardener-extension-provider-mock/pkg/controller/infrastructure"
+	mocknetwork "github.com/gardener/gardener-extension-provider-mock/pkg/controller/network"
 	mockworker "github.com/gardener/gardener-extension-provider-mock/pkg/controller/worker"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	mockcontrolplanebackup "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/controlplanebackup"
@@ -65,7 +66,11 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 		infraCtrlOpts = &controllercmd.ControllerOptions{
 			MaxConcurrentReconciles: 5,
 		}
-		reconcileOpts = &controllercmd.ReconcilerOptions{}
+
+		// options for the infrastructure controller
+		networkCtrlOpts = &controllercmd.ControllerOptions{
+			MaxConcurrentReconciles: 5,
+		}
 
 		// options for the worker controller
 		workerCtrlOpts = &controllercmd.ControllerOptions{
@@ -75,6 +80,8 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			DeployCRDs: true,
 		}
 		workerCtrlOptsUnprefixed = controllercmd.NewOptionAggregator(workerCtrlOpts, workerReconcileOpts)
+
+		reconcileOpts = &controllercmd.ReconcilerOptions{}
 
 		// options for the webhook server
 		webhookServerOptions = &webhookcmd.ServerOptions{
@@ -90,6 +97,7 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			mgrOpts,
 			controllercmd.PrefixOption("controlplane-", controlPlaneCtrlOpts),
 			controllercmd.PrefixOption("infrastructure-", infraCtrlOpts),
+			controllercmd.PrefixOption("network-", networkCtrlOpts),
 			controllercmd.PrefixOption("worker-", &workerCtrlOptsUnprefixed),
 			controllercmd.PrefixOption("healthcheck-", healthCheckCtrlOpts),
 			configFileOpts,
@@ -114,6 +122,7 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 					controllercmd.LogErrAndExit(err, "Error ensuring the machine CRDs")
 				}
 			}
+
 			mgr, err := manager.New(restOpts.Completed().Config, mgrOpts.Completed().Options())
 			if err != nil {
 				controllercmd.LogErrAndExit(err, "Could not instantiate manager")
@@ -134,6 +143,7 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			healthCheckCtrlOpts.Completed().Apply(&healthcheck.DefaultAddOptions.Controller)
 			controlPlaneCtrlOpts.Completed().Apply(&mockcontrolplane.DefaultAddOptions.Controller)
 			infraCtrlOpts.Completed().Apply(&mockinfrastructure.DefaultAddOptions.Controller)
+			networkCtrlOpts.Completed().Apply(&mocknetwork.DefaultAddOptions.Controller)
 			reconcileOpts.Completed().Apply(&mockinfrastructure.DefaultAddOptions.IgnoreOperationAnnotation)
 			reconcileOpts.Completed().Apply(&mockcontrolplane.DefaultAddOptions.IgnoreOperationAnnotation)
 			reconcileOpts.Completed().Apply(&mockworker.DefaultAddOptions.IgnoreOperationAnnotation)

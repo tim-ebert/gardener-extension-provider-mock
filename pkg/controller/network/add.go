@@ -12,49 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package controlplane
+package network
 
 import (
-	"github.com/gardener/gardener-extension-provider-mock/pkg/imagevector"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
-	extensionscontroller "github.com/gardener/gardener-extensions/pkg/controller"
-	"github.com/gardener/gardener-extensions/pkg/controller/controlplane"
-	"github.com/gardener/gardener-extensions/pkg/controller/controlplane/genericactuator"
-	"github.com/gardener/gardener-extensions/pkg/util"
-
-	admissionregistrationv1beta1 "k8s.io/api/admissionregistration/v1beta1"
+	"github.com/gardener/gardener-extensions/pkg/controller/network"
+	resourcemanagerscheme "github.com/gardener/gardener-resource-manager/pkg/apis/resources/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
-	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
 
 var (
 	// DefaultAddOptions are the default AddOptions for AddToManager.
 	DefaultAddOptions = AddOptions{}
-
-	logger = log.Log.WithName("mock-controlplane-controller")
 )
 
-// AddOptions are options to apply when adding the Mock controlplane controller to the manager.
+// AddOptions are options to apply when adding the Mock networking controller to the manager.
 type AddOptions struct {
 	// Controller are the controller.Options.
 	Controller controller.Options
 	// IgnoreOperationAnnotation specifies whether to ignore the operation annotation or not.
 	IgnoreOperationAnnotation bool
-	// ShootWebhooks specifies the list of desired Shoot MutatingWebhooks.
-	ShootWebhooks []admissionregistrationv1beta1.MutatingWebhook
 }
 
 // AddToManagerWithOptions adds a controller with the given Options to the given manager.
 // The opts.Reconciler is being set with a newly instantiated actuator.
 func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) error {
-	return controlplane.Add(mgr, controlplane.AddArgs{
-		Actuator: genericactuator.NewActuator(mock.Name, controlPlaneSecrets, controlPlaneExposureSecrets, configChart, ccmChart, ccmShootChart,
-			storageClassChart, cpExposureChart, NewValuesProvider(logger), extensionscontroller.ChartRendererFactoryFunc(util.NewChartRendererForShoot),
-			imagevector.ImageVector(), mock.CloudProviderConfigName, opts.ShootWebhooks, mgr.GetWebhookServer().Port, logger),
+	scheme := mgr.GetScheme()
+	if err := resourcemanagerscheme.AddToScheme(scheme); err != nil {
+		return err
+	}
+
+	return network.Add(mgr, network.AddArgs{
+		Actuator:          NewActuator(),
 		ControllerOptions: opts.Controller,
-		Predicates:        controlplane.DefaultPredicates(opts.IgnoreOperationAnnotation),
-		Type:              mock.TypeProvider,
+		Predicates:        network.DefaultPredicates(opts.IgnoreOperationAnnotation),
+		Type:              mock.TypeNetwork,
 	})
 }
 

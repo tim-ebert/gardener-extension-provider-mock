@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package mock
+package network
 
-const (
-	// TypeProvider is the type of resources managed by the Mock provider actuators (controlplane, infrastructure, worker).
-	TypeProvider = "mock"
+import (
+	extensionshandler "github.com/gardener/gardener-extensions/pkg/handler"
 
-	// TypeOS is the type of resources managed by the Mock operating system actuator.
-	TypeOS = "mockos"
-
-	// TypeNetwork is the type of resources managed by the Mock network actuator.
-	TypeNetwork = "mocknet"
+	extensionsv1alpha1 "github.com/gardener/gardener/pkg/apis/extensions/v1alpha1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
+
+// ClusterToNetworkMapper returns a mapper that returns requests for Network whose
+// referenced clusters have been modified.
+func ClusterToNetworkMapper(predicates []predicate.Predicate) handler.Mapper {
+	return extensionshandler.ClusterToObjectMapper(func() runtime.Object { return &extensionsv1alpha1.NetworkList{} }, predicates)
+}

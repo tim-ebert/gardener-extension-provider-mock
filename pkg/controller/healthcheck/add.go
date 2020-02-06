@@ -46,7 +46,7 @@ var (
 func RegisterHealthChecks(mgr manager.Manager, opts healthcheck.DefaultAddArgs) error {
 	normalPredicates := []predicate.Predicate{extensionspredicate.HasPurpose(extensionsv1alpha1.Normal)}
 	if err := healthcheck.DefaultRegistration(
-		mock.Type,
+		mock.TypeProvider,
 		extensionsv1alpha1.SchemeGroupVersion.WithKind(extensionsv1alpha1.ControlPlaneResource),
 		func() runtime.Object { return &extensionsv1alpha1.ControlPlane{} },
 		mgr,
@@ -62,7 +62,7 @@ func RegisterHealthChecks(mgr manager.Manager, opts healthcheck.DefaultAddArgs) 
 
 	exposurePredicate := []predicate.Predicate{extensionspredicate.HasPurpose(extensionsv1alpha1.Exposure)}
 	if err := healthcheck.DefaultRegistration(
-		mock.Type,
+		mock.TypeProvider,
 		extensionsv1alpha1.SchemeGroupVersion.WithKind(extensionsv1alpha1.ControlPlaneResource),
 		func() runtime.Object { return &extensionsv1alpha1.ControlPlane{} },
 		mgr,
@@ -74,7 +74,7 @@ func RegisterHealthChecks(mgr manager.Manager, opts healthcheck.DefaultAddArgs) 
 	}
 
 	return healthcheck.DefaultRegistration(
-		mock.Type,
+		mock.TypeProvider,
 		extensionsv1alpha1.SchemeGroupVersion.WithKind(extensionsv1alpha1.WorkerResource),
 		func() runtime.Object { return &extensionsv1alpha1.Worker{} },
 		mgr,

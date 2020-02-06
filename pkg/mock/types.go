@@ -25,6 +25,19 @@ const (
 
 	// BackupSecretName is the name of the secret containing the credentials for storing the backups of Shoot clusters.
 	BackupSecretName = "etcd-backup"
+
+	// MocknetConfigKey is the name of the key inside the mocknet config secret for storing the networking config.
+	MocknetConfigKey = "config.yaml"
+	// ReleaseName is the name of the Mocknet Release
+	MocknetReleaseName = "mocknet"
+	// MocknetConfigSecretName is the name of the secret used for the managed resource of networking mocknet
+	MocknetConfigSecretName = "extension-networking-mocknet-config"
+
+	// ImageNames
+	CalicoCNIImageName                         = "calico-cni"
+	CalicoNodeImageName                        = "calico-node"
+	CalicoKubeControllersImageName             = "calico-kube-controllers"
+	CalicoPodToDaemonFlexVolumeDriverImageName = "calico-podtodaemon-flex"
 )
 
 var (
@@ -32,4 +45,6 @@ var (
 	ChartsPath = filepath.Join("controllers", Name, "charts")
 	// Interna1lChartsPath is the path to the internal charts
 	InternalChartsPath = filepath.Join(ChartsPath, "internal")
+	// MocknetChartPath path for internal Calico Chart
+	MocknetChartPath = filepath.Join(InternalChartsPath, "mocknet")
 )

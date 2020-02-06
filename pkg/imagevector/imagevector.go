@@ -19,6 +19,7 @@ package imagevector
 import (
 	"strings"
 
+	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	"github.com/gardener/gardener/pkg/utils/imagevector"
 	"github.com/gobuffalo/packr/v2"
 	"k8s.io/apimachinery/pkg/util/runtime"
@@ -42,4 +43,32 @@ func init() {
 // ImageVector is the image vector that contains all the needed images.
 func ImageVector() imagevector.ImageVector {
 	return imageVector
+}
+
+// CalicoCNIImage returns the Calico CNI Image.
+func CalicoCNIImage() string {
+	image, err := imageVector.FindImage(mock.CalicoCNIImageName)
+	runtime.Must(err)
+	return image.String()
+}
+
+// CalicoNodeImage returns the Calico Node image.
+func CalicoNodeImage() string {
+	image, err := imageVector.FindImage(mock.CalicoNodeImageName)
+	runtime.Must(err)
+	return image.String()
+}
+
+// CalicoKubeControllersImage returns the Calico Kube-controllers image.
+func CalicoKubeControllersImage() string {
+	image, err := imageVector.FindImage(mock.CalicoKubeControllersImageName)
+	runtime.Must(err)
+	return image.String()
+}
+
+// CalicoFlexVolumeDriverImage returns the Calico flexvol image.
+func CalicoFlexVolumeDriverImage() string {
+	image, err := imageVector.FindImage(mock.CalicoPodToDaemonFlexVolumeDriverImageName)
+	runtime.Must(err)
+	return image.String()
 }

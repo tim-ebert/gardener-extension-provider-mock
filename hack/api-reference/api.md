@@ -16,6 +16,8 @@ Resource Types:
 </li><li>
 <a href="#mock.provider.extensions.gardener.cloud/v1alpha1.InfrastructureConfig">InfrastructureConfig</a>
 </li><li>
+<a href="#mock.provider.extensions.gardener.cloud/v1alpha1.NetworkConfig">NetworkConfig</a>
+</li><li>
 <a href="#mock.provider.extensions.gardener.cloud/v1alpha1.WorkerConfig">WorkerConfig</a>
 </li><li>
 <a href="#mock.provider.extensions.gardener.cloud/v1alpha1.WorkerStatus">WorkerStatus</a>
@@ -131,6 +133,38 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="mock.provider.extensions.gardener.cloud/v1alpha1.NetworkConfig">NetworkConfig
+</h3>
+<p>
+<p>NetworkConfig configuration for the mocknet networking plugin</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code></br>
+string</td>
+<td>
+<code>
+mock.provider.extensions.gardener.cloud/v1alpha1
+</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>kind</code></br>
+string
+</td>
+<td><code>NetworkConfig</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="mock.provider.extensions.gardener.cloud/v1alpha1.WorkerConfig">WorkerConfig
 </h3>
 <p>
@@ -230,6 +264,21 @@ map[string]bool
 </h3>
 <p>
 <p>InfrastructureStatus contains information about created infrastructure resources.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h3 id="mock.provider.extensions.gardener.cloud/v1alpha1.NetworkStatus">NetworkStatus
+</h3>
+<p>
+<p>NetworkStatus contains information about created Network resources.</p>
 </p>
 <table>
 <thead>

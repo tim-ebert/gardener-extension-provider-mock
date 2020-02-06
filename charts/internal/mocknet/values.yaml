@@ -9,7 +9,7 @@ config:
   kubeControllers:
     enabled: true
   ipv4:
-    pool: ipip # or vxlan
+    pool: ipip
     mode: "Always"
   felix:
     ipinip:
@@ -17,8 +17,5 @@ config:
 images:
   calico-node: "image-repository:image-tag"
   calico-cni: "image-repository:image-tag"
-  calico-typha: "image-repository:image-tag"
   calico-kube-controllers: "image-repository:image-tag"
   calico-podtodaemon-flex: "image-repository:image-tag"
-  typha-cpva: "image-repository:image-tag"
-  typha-cpa: "image-repository:image-tag"

@@ -35,7 +35,7 @@ func AddToManager(mgr manager.Manager) (*extensionswebhook.Webhook, error) {
 	fciCodec := controlplane.NewFileContentInlineCodec()
 	return controlplane.Add(mgr, controlplane.AddArgs{
 		Kind:     controlplane.KindShoot,
-		Provider: mock.Type,
+		Provider: mock.TypeProvider,
 		Types:    []runtime.Object{&appsv1.Deployment{}, &extensionsv1alpha1.OperatingSystemConfig{}},
 		Mutator: genericmutator.NewMutator(NewEnsurer(logger), controlplane.NewUnitSerializer(),
 			controlplane.NewKubeletConfigCodec(fciCodec), fciCodec, logger),

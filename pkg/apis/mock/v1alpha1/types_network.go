@@ -12,15 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package mock
+package v1alpha1
 
-const (
-	// TypeProvider is the type of resources managed by the Mock provider actuators (controlplane, infrastructure, worker).
-	TypeProvider = "mock"
-
-	// TypeOS is the type of resources managed by the Mock operating system actuator.
-	TypeOS = "mockos"
-
-	// TypeNetwork is the type of resources managed by the Mock network actuator.
-	TypeNetwork = "mocknet"
+import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// NetworkConfig configuration for the mocknet networking plugin
+type NetworkConfig struct {
+	metav1.TypeMeta `json:",inline"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// NetworkStatus contains information about created Network resources.
+type NetworkStatus struct {
+	metav1.TypeMeta `json:",inline"`
+}

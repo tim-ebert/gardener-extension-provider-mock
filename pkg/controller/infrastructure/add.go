@@ -42,7 +42,7 @@ func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) error {
 		Actuator:          NewActuator(),
 		ControllerOptions: opts.Controller,
 		Predicates:        infrastructure.DefaultPredicates(opts.IgnoreOperationAnnotation),
-		Type:              mock.Type,
+		Type:              mock.TypeProvider,
 	})
 }
 

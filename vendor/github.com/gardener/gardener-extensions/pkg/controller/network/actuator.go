@@ -12,15 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package mock
+package network
 
-const (
-	// TypeProvider is the type of resources managed by the Mock provider actuators (controlplane, infrastructure, worker).
-	TypeProvider = "mock"
+import (
+	"context"
 
-	// TypeOS is the type of resources managed by the Mock operating system actuator.
-	TypeOS = "mockos"
+	extensioncontroller "github.com/gardener/gardener-extensions/pkg/controller"
 
-	// TypeNetwork is the type of resources managed by the Mock network actuator.
-	TypeNetwork = "mocknet"
+	extensionsv1alpha1 "github.com/gardener/gardener/pkg/apis/extensions/v1alpha1"
 )
+
+// Actuator acts upon Network resources.
+type Actuator interface {
+	// Reconcile reconciles the Network resource.
+	Reconcile(context.Context, *extensionsv1alpha1.Network, *extensioncontroller.Cluster) error
+	// Delete deletes the Network resource.
+	Delete(context.Context, *extensionsv1alpha1.Network, *extensioncontroller.Cluster) error
+}
