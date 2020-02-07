@@ -106,7 +106,7 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			controllercmd.PrefixOption("healthcheck-", healthCheckCtrlOpts),
 			controllercmd.PrefixOption("infrastructure-", infraCtrlOpts),
 			controllercmd.PrefixOption("network-", networkCtrlOpts),
-			controllercmd.PrefixOption("operatingsystem-", oscCtrlOpts),
+			controllercmd.PrefixOption("operatingsystemconfig-", oscCtrlOpts),
 			controllercmd.PrefixOption("worker-", &workerCtrlOptsUnprefixed),
 			configFileOpts,
 			controllerSwitches,

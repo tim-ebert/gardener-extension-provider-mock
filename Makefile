@@ -23,7 +23,12 @@ LD_FLAGS                    := "-w -X github.com/gardener/$(EXTENSION_PREFIX)-$(
 VERIFY                      := true
 LEADER_ELECTION             := false
 IGNORE_OPERATION_ANNOTATION := true
+CONCURRENT_RECONCILES       := 5
+DISABLE_CONTROLLERS         :=
+DISABLE_WEBHOOKS            :=
+WORKER_DEPLOY_CRDS          := false
 
+WEBHOOK_PORT        := 8443
 WEBHOOK_CONFIG_MODE	:= url
 WEBHOOK_CONFIG_URL	:= docker.for.mac.localhost
 EXTENSION_NAMESPACE	:=
@@ -104,9 +109,18 @@ start:
 		-ldflags $(LD_FLAGS) \
 		./cmd/$(EXTENSION_PREFIX)-$(NAME) \
 		--config-file=./example/00-componentconfig.yaml \
-		--ignore-operation-annotation=$(IGNORE_OPERATION_ANNOTATION) \
-		--leader-election=$(LEADER_ELECTION) \
+        --controlplane-max-concurrent-reconciles=$(CONCURRENT_RECONCILES) \
+        --healthcheck-max-concurrent-reconciles=$(CONCURRENT_RECONCILES) \
+        --infrastructure-max-concurrent-reconciles=$(CONCURRENT_RECONCILES) \
+        --ignore-operation-annotation=$(IGNORE_OPERATION_ANNOTATION) \
+        --leader-election=$(LEADER_ELECTION) \
+        --network-max-concurrent-reconciles=$(CONCURRENT_RECONCILES) \
+        --operatingsystemconfig-max-concurrent-reconciles=$(CONCURRENT_RECONCILES) \
+        --worker-deploy-crds=$(WORKER_DEPLOY_CRDS) \
+        --worker-max-concurrent-reconciles=$(CONCURRENT_RECONCILES) \
+        --disable-controllers=$(DISABLE_CONTROLLERS) \
+        --disable-webhooks=$(DISABLE_WEBHOOKS) \
 		--webhook-config-server-host=0.0.0.0 \
-		--webhook-config-server-port=8443 \
+		--webhook-config-server-port=$(WEBHOOK_PORT) \
 		--webhook-config-mode=$(WEBHOOK_CONFIG_MODE) \
 		$(WEBHOOK_PARAM)
