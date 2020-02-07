@@ -28,7 +28,7 @@ DISABLE_CONTROLLERS         :=
 DISABLE_WEBHOOKS            :=
 WORKER_DEPLOY_CRDS          := false
 
-WEBHOOK_PORT        := 8443
+WEBHOOK_PORT        := 9443
 WEBHOOK_CONFIG_MODE	:= url
 WEBHOOK_CONFIG_URL	:= docker.for.mac.localhost
 EXTENSION_NAMESPACE	:=
@@ -120,6 +120,7 @@ start:
         --worker-max-concurrent-reconciles=$(CONCURRENT_RECONCILES) \
         --disable-controllers=$(DISABLE_CONTROLLERS) \
         --disable-webhooks=$(DISABLE_WEBHOOKS) \
+		--webhook-config-cert-dir=$(REPO_ROOT)/tls \
 		--webhook-config-server-host=0.0.0.0 \
 		--webhook-config-server-port=$(WEBHOOK_PORT) \
 		--webhook-config-mode=$(WEBHOOK_CONFIG_MODE) \

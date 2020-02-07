@@ -16,17 +16,19 @@ package controlplane
 
 import (
 	"context"
+	"path/filepath"
 
 	apismock "github.com/gardener/gardener-extension-provider-mock/pkg/apis/mock"
+	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	"github.com/gardener/gardener-extensions/pkg/controller"
 	extensionscontroller "github.com/gardener/gardener-extensions/pkg/controller"
 	"github.com/gardener/gardener-extensions/pkg/controller/common"
 	"github.com/gardener/gardener-extensions/pkg/controller/controlplane/genericactuator"
 	"github.com/gardener/gardener-extensions/pkg/util"
+	"github.com/gardener/gardener/pkg/utils/chart"
 
 	v1beta1constants "github.com/gardener/gardener/pkg/apis/core/v1beta1/constants"
 	extensionsv1alpha1 "github.com/gardener/gardener/pkg/apis/extensions/v1alpha1"
-	"github.com/gardener/gardener/pkg/utils/chart"
 	kutil "github.com/gardener/gardener/pkg/utils/kubernetes"
 	"github.com/gardener/gardener/pkg/utils/secrets"
 	"github.com/go-logr/logr"
@@ -59,15 +61,20 @@ var controlPlaneExposureSecrets = &secrets.Secrets{
 	},
 }
 
-var configChart *chart.Chart = nil
+var controlPlaneChart = &chart.Chart{
+	Name: "controlplane",
+	Path: filepath.Join(mock.InternalChartsPath, "controlplane"),
+}
 
-var ccmChart *chart.Chart = nil
+var controlPlaneShootChart = &chart.Chart{
+	Name: "controlplane-shoot",
+	Path: filepath.Join(mock.InternalChartsPath, "controlplane-shoot"),
+}
 
-var ccmShootChart *chart.Chart = nil
-
-var storageClassChart *chart.Chart = nil
-
-var cpExposureChart *chart.Chart = nil
+var storageClassesChart = &chart.Chart{
+	Name: "shoot-storageclasses",
+	Path: filepath.Join(mock.InternalChartsPath, "shoot-storageclasses"),
+}
 
 // NewValuesProvider creates a new ValuesProvider for the generic actuator.
 func NewValuesProvider(logger logr.Logger) genericactuator.ValuesProvider {
@@ -117,8 +124,7 @@ func (vp *valuesProvider) GetControlPlaneChartValues(
 		}
 	}
 
-	// Get CCM chart values
-	return getCCMChartValues(cpConfig, cp, cluster, checksums, scaledDown)
+	return getControlPlaneChartValues(cpConfig, cp, cluster, checksums, scaledDown)
 }
 
 // GetControlPlaneExposureChartValues returns the control plane exposure values
@@ -157,8 +163,8 @@ func getConfigChartValues(
 	}, nil
 }
 
-// getCCMChartValues collects and returns the CCM chart values.
-func getCCMChartValues(
+// getControlPlaneChartValues collects and returns the CCM chart values.
+func getControlPlaneChartValues(
 	cpConfig *apismock.ControlPlaneConfig,
 	cp *extensionsv1alpha1.ControlPlane,
 	cluster *extensionscontroller.Cluster,

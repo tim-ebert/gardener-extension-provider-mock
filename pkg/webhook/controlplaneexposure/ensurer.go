@@ -16,13 +16,13 @@ package controlplaneexposure
 
 import (
 	"context"
+	v1beta1constants "github.com/gardener/gardener/pkg/apis/core/v1beta1/constants"
 
 	"github.com/gardener/gardener-extension-provider-mock/pkg/apis/config"
 	extensionswebhook "github.com/gardener/gardener-extensions/pkg/webhook"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane/genericmutator"
 
-	v1beta1constants "github.com/gardener/gardener/pkg/apis/core/v1beta1/constants"
 	"github.com/go-logr/logr"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -67,10 +67,13 @@ func (e *ensurer) getVolumeClaimTemplate(name string) *corev1.PersistentVolumeCl
 	var (
 		etcdStorage             config.ETCDStorage
 		volumeClaimTemplateName = name
+		standardClass           = "standard"
 	)
 
 	if name == v1beta1constants.ETCDMain {
+		// TODO storage class for mock provider
 		etcdStorage = *e.etcdStorage
+		etcdStorage.ClassName = &standardClass
 		volumeClaimTemplateName = controlplane.EtcdMainVolumeClaimTemplateName
 	}
 

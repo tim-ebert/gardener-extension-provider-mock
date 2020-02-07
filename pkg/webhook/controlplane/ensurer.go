@@ -16,7 +16,6 @@ package controlplane
 
 import (
 	"context"
-	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	extensionswebhook "github.com/gardener/gardener-extensions/pkg/webhook"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane/genericmutator"
@@ -104,32 +103,15 @@ var (
 			},
 		},
 	}
-
-	cloudProviderConfigVolumeMount = corev1.VolumeMount{
-		Name:      mock.CloudProviderConfigName,
-		MountPath: "/etc/kubernetes/cloudprovider",
-	}
-	cloudProviderConfigVolume = corev1.Volume{
-		Name: mock.CloudProviderConfigName,
-		VolumeSource: corev1.VolumeSource{
-			ConfigMap: &corev1.ConfigMapVolumeSource{
-				LocalObjectReference: corev1.LocalObjectReference{Name: mock.CloudProviderConfigName},
-			},
-		},
-	}
 )
 
 func ensureVolumeMounts(c *corev1.Container, version string) {
-	c.VolumeMounts = extensionswebhook.EnsureVolumeMountWithName(c.VolumeMounts, cloudProviderConfigVolumeMount)
-
 	if mustMountEtcSSLFolder(version) {
 		c.VolumeMounts = extensionswebhook.EnsureVolumeMountWithName(c.VolumeMounts, etcSSLVolumeMount)
 	}
 }
 
 func ensureVolumes(ps *corev1.PodSpec, version string) {
-	ps.Volumes = extensionswebhook.EnsureVolumeWithName(ps.Volumes, cloudProviderConfigVolume)
-
 	if mustMountEtcSSLFolder(version) {
 		ps.Volumes = extensionswebhook.EnsureVolumeWithName(ps.Volumes, etcSSLVolume)
 	}
@@ -148,8 +130,5 @@ func mustMountEtcSSLFolder(version string) bool {
 }
 
 func (e *ensurer) ensureChecksumAnnotations(ctx context.Context, template *corev1.PodTemplateSpec, namespace string) error {
-	if err := controlplane.EnsureSecretChecksumAnnotation(ctx, template, e.client, namespace, v1beta1constants.SecretNameCloudProvider); err != nil {
-		return err
-	}
-	return controlplane.EnsureConfigMapChecksumAnnotation(ctx, template, e.client, namespace, mock.CloudProviderConfigName)
+	return controlplane.EnsureSecretChecksumAnnotation(ctx, template, e.client, namespace, v1beta1constants.SecretNameCloudProvider)
 }

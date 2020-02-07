@@ -34,7 +34,7 @@ func (a *actuator) Reconcile(ctx context.Context, worker *extensionsv1alpha1.Wor
 func (a *actuator) updateWorkerStatus(ctx context.Context, worker *extensionsv1alpha1.Worker) error {
 	var statusMachineDeployments []extensionsv1alpha1.MachineDeployment
 
-	return extensionscontroller.TryUpdateStatus(ctx, retry.DefaultBackoff, a.client, worker, func() error {
+	return extensionscontroller.TryUpdateStatus(ctx, retry.DefaultBackoff, a.Client(), worker, func() error {
 		worker.Status.MachineDeployments = statusMachineDeployments
 		return nil
 	})

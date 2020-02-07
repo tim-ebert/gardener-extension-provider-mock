@@ -49,9 +49,9 @@ type AddOptions struct {
 // The opts.Reconciler is being set with a newly instantiated actuator.
 func AddToManagerWithOptions(mgr manager.Manager, opts AddOptions) error {
 	return controlplane.Add(mgr, controlplane.AddArgs{
-		Actuator: genericactuator.NewActuator(mock.Name, controlPlaneSecrets, controlPlaneExposureSecrets, configChart, ccmChart, ccmShootChart,
-			storageClassChart, cpExposureChart, NewValuesProvider(logger), extensionscontroller.ChartRendererFactoryFunc(util.NewChartRendererForShoot),
-			imagevector.ImageVector(), mock.CloudProviderConfigName, opts.ShootWebhooks, mgr.GetWebhookServer().Port, logger),
+		Actuator: genericactuator.NewActuator(mock.Name, controlPlaneSecrets, controlPlaneExposureSecrets, nil, controlPlaneChart, controlPlaneShootChart,
+			storageClassesChart, nil, NewValuesProvider(logger), extensionscontroller.ChartRendererFactoryFunc(util.NewChartRendererForShoot),
+			imagevector.ImageVector(), "", opts.ShootWebhooks, mgr.GetWebhookServer().Port, logger),
 		ControllerOptions: opts.Controller,
 		Predicates:        controlplane.DefaultPredicates(opts.IgnoreOperationAnnotation),
 		Type:              mock.TypeProvider,

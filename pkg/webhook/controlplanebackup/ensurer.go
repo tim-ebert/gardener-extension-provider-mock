@@ -16,9 +16,11 @@ package controlplanebackup
 
 import (
 	"context"
-
+	"fmt"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/apis/config"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
+	extensionscontroller "github.com/gardener/gardener-extensions/pkg/controller"
+	extensionswebhook "github.com/gardener/gardener-extensions/pkg/webhook"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane"
 	"github.com/gardener/gardener-extensions/pkg/webhook/controlplane/genericmutator"
 	v1beta1constants "github.com/gardener/gardener/pkg/apis/core/v1beta1/constants"
@@ -58,7 +60,20 @@ func (e *ensurer) EnsureETCDStatefulSet(ctx context.Context, ectx genericmutator
 	if err != nil {
 		return err
 	}
+	if err := e.ensureContainers(&ss.Spec.Template.Spec, ss.Name, cluster); err != nil {
+		return err
+	}
 	return e.ensureChecksumAnnotations(ctx, &ss.Spec.Template, ss.Namespace, ss.Name, cluster.Seed.Spec.Backup != nil)
+}
+
+func (e *ensurer) ensureContainers(ps *corev1.PodSpec, name string, cluster *extensionscontroller.Cluster) error {
+	etcdContainer := extensionswebhook.ContainerWithName(ps.Containers, "etcd")
+	c, err := e.ensureETCDContainer(etcdContainer, name)
+	if err != nil {
+		return err
+	}
+	ps.Containers = extensionswebhook.EnsureContainerWithName(ps.Containers, *c)
+	return nil
 }
 
 func (e *ensurer) ensureChecksumAnnotations(ctx context.Context, template *corev1.PodTemplateSpec, namespace, name string, backupConfigured bool) error {
@@ -66,4 +81,30 @@ func (e *ensurer) ensureChecksumAnnotations(ctx context.Context, template *corev
 		return controlplane.EnsureSecretChecksumAnnotation(ctx, template, e.client, namespace, mock.BackupSecretName)
 	}
 	return nil
+}
+
+func (e *ensurer) ensureETCDContainer(c *corev1.Container, name string) (*corev1.Container, error) {
+	if c == nil {
+		return nil, fmt.Errorf("could not find etcd container in pod spec")
+	}
+
+	c.Command = []string{
+		"etcd", "--config-file", "/bootstrap/etcd.conf.yml",
+	}
+
+	c.ReadinessProbe.HTTPGet = nil
+	c.ReadinessProbe.Exec = &corev1.ExecAction{Command: []string{
+		"/bin/sh",
+		"-ec",
+		"ETCDCTL_API=3",
+		"etcdctl",
+		"--cert=/var/etcd/ssl/client/tls.crt",
+		"--key=/var/etcd/ssl/client/tls.key",
+		"--cacert=/var/etcd/ssl/ca/ca.crt",
+		fmt.Sprintf("--endpoints=https://%s-0:%d", name, 2379),
+		"endpoint",
+		"health",
+	}}
+
+	return c, nil
 }

@@ -20,9 +20,6 @@ const (
 	// Name is the name of the Mock provider.
 	Name = "provider-mock"
 
-	// CloudProviderConfigName is the name of the configmap containing the cloud provider config.
-	CloudProviderConfigName = "cloud-provider-config"
-
 	// BackupSecretName is the name of the secret containing the credentials for storing the backups of Shoot clusters.
 	BackupSecretName = "etcd-backup"
 
@@ -42,7 +39,7 @@ const (
 
 var (
 	// ChartsPath is the path to the charts
-	ChartsPath = filepath.Join("controllers", Name, "charts")
+	ChartsPath = "charts"
 	// Interna1lChartsPath is the path to the internal charts
 	InternalChartsPath = filepath.Join(ChartsPath, "internal")
 	// MocknetChartPath path for internal Calico Chart
