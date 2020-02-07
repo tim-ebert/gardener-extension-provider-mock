@@ -33,8 +33,12 @@ spec:
         - /gardener-extension-provider-mock
         - --config-file=/etc/{{ include "name" . }}/config/config.yaml
         - --controlplane-max-concurrent-reconciles={{ .Values.controllers.controlplane.concurrentSyncs }}
+        - --healthcheck-max-concurrent-reconciles={{ .Values.controllers.healthcheck.concurrentSyncs }}
         - --infrastructure-max-concurrent-reconciles={{ .Values.controllers.infrastructure.concurrentSyncs }}
         - --ignore-operation-annotation={{ .Values.controllers.ignoreOperationAnnotation }}
+        - --network-max-concurrent-reconciles={{ .Values.controllers.network.concurrentSyncs }}
+        - --operatingsystemconfig-max-concurrent-reconciles={{ .Values.controllers.operatingsystemconfig.concurrentSyncs }}
+        - --worker-deploy-crds={{ .Values.controllers.worker.deployCRDs }}
         - --worker-max-concurrent-reconciles={{ .Values.controllers.worker.concurrentSyncs }}
         - --webhook-config-namespace={{ .Release.Namespace }}
         - --webhook-config-server-port={{ .Values.webhookConfig.serverPort }}

@@ -20,6 +20,7 @@ import (
 	"os"
 
 	mockinstall "github.com/gardener/gardener-extension-provider-mock/pkg/apis/mock/install"
+	mockoperatingsystemconfig "github.com/gardener/gardener-extension-provider-mock/pkg/controller/operatingsystemconfig"
 	mockcmd "github.com/gardener/gardener-extension-provider-mock/pkg/cmd"
 	mockcontrolplane "github.com/gardener/gardener-extension-provider-mock/pkg/controller/controlplane"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/controller/healthcheck"
@@ -52,13 +53,13 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 		}
 		configFileOpts = &mockcmd.ConfigOptions{}
 
-		// options for the health care controller
-		healthCheckCtrlOpts = &controllercmd.ControllerOptions{
+		// options for the controlplane controller
+		controlPlaneCtrlOpts = &controllercmd.ControllerOptions{
 			MaxConcurrentReconciles: 5,
 		}
 
-		// options for the controlplane controller
-		controlPlaneCtrlOpts = &controllercmd.ControllerOptions{
+		// options for the health care controller
+		healthCheckCtrlOpts = &controllercmd.ControllerOptions{
 			MaxConcurrentReconciles: 5,
 		}
 
@@ -67,8 +68,13 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			MaxConcurrentReconciles: 5,
 		}
 
-		// options for the infrastructure controller
+		// options for the network controller
 		networkCtrlOpts = &controllercmd.ControllerOptions{
+			MaxConcurrentReconciles: 5,
+		}
+
+		// options for the operatingsystemconfig controller
+		oscCtrlOpts = &controllercmd.ControllerOptions{
 			MaxConcurrentReconciles: 5,
 		}
 
@@ -81,6 +87,7 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 		}
 		workerCtrlOptsUnprefixed = controllercmd.NewOptionAggregator(workerCtrlOpts, workerReconcileOpts)
 
+		// general reconciliation options
 		reconcileOpts = &controllercmd.ReconcilerOptions{}
 
 		// options for the webhook server
@@ -96,10 +103,11 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			restOpts,
 			mgrOpts,
 			controllercmd.PrefixOption("controlplane-", controlPlaneCtrlOpts),
+			controllercmd.PrefixOption("healthcheck-", healthCheckCtrlOpts),
 			controllercmd.PrefixOption("infrastructure-", infraCtrlOpts),
 			controllercmd.PrefixOption("network-", networkCtrlOpts),
+			controllercmd.PrefixOption("operatingsystem-", oscCtrlOpts),
 			controllercmd.PrefixOption("worker-", &workerCtrlOptsUnprefixed),
-			controllercmd.PrefixOption("healthcheck-", healthCheckCtrlOpts),
 			configFileOpts,
 			controllerSwitches,
 			reconcileOpts,
@@ -140,14 +148,19 @@ func NewControllerManagerCommand(ctx context.Context) *cobra.Command {
 			configFileOpts.Completed().ApplyETCDStorage(&mockcontrolplaneexposure.DefaultAddOptions.ETCDStorage)
 			configFileOpts.Completed().ApplyETCDBackup(&mockcontrolplanebackup.DefaultAddOptions.ETCDBackup)
 			configFileOpts.Completed().ApplyHealthCheckConfig(&healthcheck.DefaultAddOptions.HealthCheckConfig)
-			healthCheckCtrlOpts.Completed().Apply(&healthcheck.DefaultAddOptions.Controller)
+
 			controlPlaneCtrlOpts.Completed().Apply(&mockcontrolplane.DefaultAddOptions.Controller)
+			healthCheckCtrlOpts.Completed().Apply(&healthcheck.DefaultAddOptions.Controller)
 			infraCtrlOpts.Completed().Apply(&mockinfrastructure.DefaultAddOptions.Controller)
 			networkCtrlOpts.Completed().Apply(&mocknetwork.DefaultAddOptions.Controller)
-			reconcileOpts.Completed().Apply(&mockinfrastructure.DefaultAddOptions.IgnoreOperationAnnotation)
-			reconcileOpts.Completed().Apply(&mockcontrolplane.DefaultAddOptions.IgnoreOperationAnnotation)
-			reconcileOpts.Completed().Apply(&mockworker.DefaultAddOptions.IgnoreOperationAnnotation)
+			oscCtrlOpts.Completed().Apply(&mockoperatingsystemconfig.DefaultAddOptions.Controller)
 			workerCtrlOpts.Completed().Apply(&mockworker.DefaultAddOptions.Controller)
+
+			reconcileOpts.Completed().Apply(&mockcontrolplane.DefaultAddOptions.IgnoreOperationAnnotation)
+			reconcileOpts.Completed().Apply(&mockinfrastructure.DefaultAddOptions.IgnoreOperationAnnotation)
+			reconcileOpts.Completed().Apply(&mocknetwork.DefaultAddOptions.IgnoreOperationAnnotation)
+			reconcileOpts.Completed().Apply(&mockoperatingsystemconfig.DefaultAddOptions.IgnoreOperationAnnotation)
+			reconcileOpts.Completed().Apply(&mockworker.DefaultAddOptions.IgnoreOperationAnnotation)
 
 			_, shootWebhooks, err := webhookOptions.Completed().AddToManager(mgr)
 			if err != nil {

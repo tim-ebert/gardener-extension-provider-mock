@@ -19,8 +19,10 @@ import (
 	healthcheckcontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/healthcheck"
 	infrastructurecontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/infrastructure"
 	networkcontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/network"
+	operatingsystemconfigcontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/operatingsystemconfig"
 	workercontroller "github.com/gardener/gardener-extension-provider-mock/pkg/controller/worker"
 	controlplanewebhook "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/controlplane"
+	controlplanebackupwebhook "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/controlplanebackup"
 	controlplaneexposurewebhook "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/controlplaneexposure"
 	shootwebhook "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/shoot"
 	controllercmd "github.com/gardener/gardener-extensions/pkg/controller/cmd"
@@ -28,6 +30,7 @@ import (
 	extensionshealthcheckcontroller "github.com/gardener/gardener-extensions/pkg/controller/healthcheck"
 	extensionsinfrastructurecontroller "github.com/gardener/gardener-extensions/pkg/controller/infrastructure"
 	extensionsnetworkcontroller "github.com/gardener/gardener-extensions/pkg/controller/network"
+	extensionsoperatingsystemconfig "github.com/gardener/gardener-extensions/pkg/controller/operatingsystemconfig"
 	extensionsworkercontroller "github.com/gardener/gardener-extensions/pkg/controller/worker"
 	webhookcmd "github.com/gardener/gardener-extensions/pkg/webhook/cmd"
 	extensioncontrolplanewebhook "github.com/gardener/gardener-extensions/pkg/webhook/controlplane"
@@ -38,10 +41,11 @@ import (
 func ControllerSwitchOptions() *controllercmd.SwitchOptions {
 	return controllercmd.NewSwitchOptions(
 		controllercmd.Switch(extensionscontrolplanecontroller.ControllerName, controlplanecontroller.AddToManager),
-		controllercmd.Switch(extensionsinfrastructurecontroller.ControllerName, infrastructurecontroller.AddToManager),
-		controllercmd.Switch(extensionsworkercontroller.ControllerName, workercontroller.AddToManager),
-		controllercmd.Switch(extensionsnetworkcontroller.ControllerName, networkcontroller.AddToManager),
 		controllercmd.Switch(extensionshealthcheckcontroller.ControllerName, healthcheckcontroller.AddToManager),
+		controllercmd.Switch(extensionsinfrastructurecontroller.ControllerName, infrastructurecontroller.AddToManager),
+		controllercmd.Switch(extensionsnetworkcontroller.ControllerName, networkcontroller.AddToManager),
+		controllercmd.Switch(extensionsoperatingsystemconfig.ControllerName, operatingsystemconfigcontroller.AddToManager),
+		controllercmd.Switch(extensionsworkercontroller.ControllerName, workercontroller.AddToManager),
 	)
 }
 
@@ -49,6 +53,7 @@ func ControllerSwitchOptions() *controllercmd.SwitchOptions {
 func WebhookSwitchOptions() *webhookcmd.SwitchOptions {
 	return webhookcmd.NewSwitchOptions(
 		webhookcmd.Switch(extensioncontrolplanewebhook.WebhookName, controlplanewebhook.AddToManager),
+		webhookcmd.Switch(extensioncontrolplanewebhook.BackupWebhookName, controlplanebackupwebhook.AddToManager),
 		webhookcmd.Switch(extensioncontrolplanewebhook.ExposureWebhookName, controlplaneexposurewebhook.AddToManager),
 		webhookcmd.Switch(extensionshootwebhook.WebhookName, shootwebhook.AddToManager),
 	)

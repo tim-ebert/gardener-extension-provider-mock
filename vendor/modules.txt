@@ -91,6 +91,7 @@ github.com/gardener/gardener-extensions/pkg/controller/healthcheck/general
 github.com/gardener/gardener-extensions/pkg/controller/healthcheck/worker
 github.com/gardener/gardener-extensions/pkg/controller/infrastructure
 github.com/gardener/gardener-extensions/pkg/controller/network
+github.com/gardener/gardener-extensions/pkg/controller/operatingsystemconfig
 github.com/gardener/gardener-extensions/pkg/controller/operatingsystemconfig/oscommon/cloudinit
 github.com/gardener/gardener-extensions/pkg/controller/worker
 github.com/gardener/gardener-extensions/pkg/event
