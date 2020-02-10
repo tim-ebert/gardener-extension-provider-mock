@@ -22,7 +22,7 @@ VERSION                     := $(shell cat "$(REPO_ROOT)/VERSION")
 LD_FLAGS                    := "-w -X github.com/gardener/$(EXTENSION_PREFIX)-$(NAME)/pkg/version.Version=$(IMAGE_TAG)"
 VERIFY                      := true
 LEADER_ELECTION             := false
-IGNORE_OPERATION_ANNOTATION := true
+IGNORE_OPERATION_ANNOTATION := false
 CONCURRENT_RECONCILES       := 5
 DISABLE_CONTROLLERS         :=
 DISABLE_WEBHOOKS            :=

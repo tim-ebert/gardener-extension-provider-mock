@@ -31,7 +31,7 @@ spec:
         # priority scheduling and that its resources are reserved
         # if it ever gets evicted.
         scheduler.alpha.kubernetes.io/critical-pod: ''
-        checksum/configmap-calico: {{ include (print $.Template.BasePath "calico-config.yaml") . | sha256sum }}
+        checksum/configmap-calico: {{ include (print $.Template.BasePath "/calico-config.yaml") . | sha256sum }}
     spec:
       priorityClassName: system-node-critical
       nodeSelector:

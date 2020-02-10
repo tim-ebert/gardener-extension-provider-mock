@@ -23,12 +23,12 @@ const (
 	// BackupSecretName is the name of the secret containing the credentials for storing the backups of Shoot clusters.
 	BackupSecretName = "etcd-backup"
 
-	// MocknetConfigKey is the name of the key inside the mocknet config secret for storing the networking config.
-	MocknetConfigKey = "config.yaml"
-	// ReleaseName is the name of the Mocknet Release
-	MocknetReleaseName = "mocknet"
 	// MocknetConfigSecretName is the name of the secret used for the managed resource of networking mocknet
 	MocknetConfigSecretName = "extension-networking-mocknet-config"
+	// ReleaseName is the name of the Mocknet Release
+	MocknetReleaseName = "mocknet"
+	// MocknetConfigKey is the name of the key inside the mocknet config secret for storing the networking config.
+	MocknetConfigKey = "mocknet.yaml"
 
 	// ImageNames
 	CalicoCNIImageName                         = "calico-cni"

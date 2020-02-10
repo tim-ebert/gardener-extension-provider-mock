@@ -38,5 +38,5 @@ func (c *actuator) reconcile(ctx context.Context, config *extensionsv1alpha1.Ope
 }
 
 func (c *actuator) cloudConfigFromOperatingSystemConfig(ctx context.Context, config *extensionsv1alpha1.OperatingSystemConfig) (string, []string, error) {
-	return "mockos-empty-cloud-config", []string{}, nil
+	return "mockos-empty-cloud-config", []string{"kubelet"}, nil
 }
