@@ -15,3 +15,10 @@ images:
   sourceRepository: github.com/projectcalico/pod2daemon
   repository: quay.io/calico/pod2daemon-flexvol
   tag: v3.11.2
+- name: hyperkube # used for kubelet binaries on the mock workers
+  sourceRepository: github.com/kubernetes/kubernetes
+  repository: k8s.gcr.io/hyperkube
+- name: dind # used as container runtime on the mock workers
+  sourceRepository: github.com/kubernetes/kubernetes
+  repository: docker
+  tag: 18.06-dind

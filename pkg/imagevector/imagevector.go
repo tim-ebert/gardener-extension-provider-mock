@@ -72,3 +72,17 @@ func CalicoFlexVolumeDriverImage() string {
 	runtime.Must(err)
 	return image.String()
 }
+
+// HyperkubeImage returns the hyperkube image.
+func HyperkubeImage(version string) string {
+	image, err := imageVector.FindImage(mock.HyperkubeImageName, imagevector.TargetVersion(version))
+	runtime.Must(err)
+	return image.String()
+}
+
+// DinDImage returns the dind image.
+func DinDImage() string {
+	image, err := imageVector.FindImage(mock.DinDImageName)
+	runtime.Must(err)
+	return image.String()
+}

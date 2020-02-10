@@ -35,6 +35,8 @@ const (
 	CalicoNodeImageName                        = "calico-node"
 	CalicoKubeControllersImageName             = "calico-kube-controllers"
 	CalicoPodToDaemonFlexVolumeDriverImageName = "calico-podtodaemon-flex"
+	HyperkubeImageName                         = "hyperkube"
+	DinDImageName                              = "dind"
 )
 
 var (
