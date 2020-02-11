@@ -17,10 +17,8 @@ package network
 import (
 	"context"
 	"fmt"
-	"github.com/gardener/gardener-resource-manager/pkg/manager"
 	gardencorev1beta1 "github.com/gardener/gardener/pkg/apis/core/v1beta1"
-	"github.com/gardener/gardener/pkg/operation/common"
-	corev1 "k8s.io/api/core/v1"
+	"github.com/gardener/gardener/pkg/utils/chart"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/util/retry"
 
@@ -32,13 +30,20 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+var mocknetChart = &chart.Chart{
+	Name: "mocknet",
+	Path: mock.MocknetChartPath,
+	Images: []string{
+		mock.CalicoCNIImageName,
+		mock.CalicoNodeImageName,
+		mock.CalicoKubeControllersImageName,
+		mock.CalicoPodToDaemonFlexVolumeDriverImageName,
+	},
+}
+
 // Reconcile implements Network.Actuator.
 func (a *actuator) Reconcile(ctx context.Context, network *extensionsv1alpha1.Network, cluster *extensionscontroller.Cluster) error {
-	var (
-		networkConfig *mockv1alpha1.NetworkConfig
-		err           error
-	)
-
+	networkConfig := &mockv1alpha1.NetworkConfig{}
 	if network.Spec.ProviderConfig != nil {
 		if _, _, err := a.Decoder().Decode(network.Spec.ProviderConfig.Raw, nil, networkConfig); err != nil {
 			return fmt.Errorf("could not decode provider config: %+v", err)
@@ -49,26 +54,11 @@ func (a *actuator) Reconcile(ctx context.Context, network *extensionsv1alpha1.Ne
 	if err != nil {
 		return err
 	}
-	release, err := a.ChartRenderer().Render(mock.MocknetChartPath, mock.MocknetReleaseName, metav1.NamespaceSystem, values)
-	if err != nil {
-		return err
-	}
 
-	if err := manager.NewSecret(a.Client()).
-		WithKeyValues(map[string][]byte{mock.MocknetConfigKey: release.Manifest()}).
-		WithNamespacedName(network.Namespace, mock.MocknetConfigSecretName).
-		Reconcile(ctx); err != nil {
-		return err
-	}
-
-	if err := manager.
-		NewManagedResource(a.Client()).
-		WithNamespacedName(network.Namespace, mock.MocknetConfigSecretName).
-		WithSecretRefs([]corev1.LocalObjectReference{{Name: mock.MocknetConfigSecretName}}).
-		WithInjectedLabels(map[string]string{common.ShootNoCleanup: "true"}).
-		Reconcile(ctx)
-		err != nil {
-		return err
+	if err := extensionscontroller.RenderChartAndCreateManagedResource(ctx, network.Namespace, mock.MocknetSecretName,
+		a.Client(), a.ChartRenderer(), mocknetChart, values, imagevector.ImageVector(), metav1.NamespaceSystem,
+		cluster.Shoot.Spec.Kubernetes.Version, true, false); err != nil {
+		return fmt.Errorf("failed to deploy mocknet: %+v", err)
 	}
 
 	return a.updateProviderStatus(ctx, network, networkConfig)
@@ -77,12 +67,6 @@ func (a *actuator) Reconcile(ctx context.Context, network *extensionsv1alpha1.Ne
 // computeMocknetChartValues computes the values for the mocknet chart.
 func computeMocknetChartValues(network *extensionsv1alpha1.Network, config *mockv1alpha1.NetworkConfig) (map[string]interface{}, error) {
 	values := map[string]interface{}{
-		"images": map[string]interface{}{
-			mock.CalicoNodeImageName:                        imagevector.CalicoNodeImage(),
-			mock.CalicoCNIImageName:                         imagevector.CalicoCNIImage(),
-			mock.CalicoKubeControllersImageName:             imagevector.CalicoKubeControllersImage(),
-			mock.CalicoPodToDaemonFlexVolumeDriverImageName: imagevector.CalicoFlexVolumeDriverImage(),
-		},
 		"global": map[string]string{
 			"podCIDR": network.Spec.PodCIDR,
 		},

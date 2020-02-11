@@ -23,9 +23,9 @@ const (
 	// BackupSecretName is the name of the secret containing the credentials for storing the backups of Shoot clusters.
 	BackupSecretName = "etcd-backup"
 
-	// MocknetConfigSecretName is the name of the secret used for the managed resource of networking mocknet
-	MocknetConfigSecretName = "extension-networking-mocknet-config"
-	// ReleaseName is the name of the Mocknet Release
+	// MocknetSecretName is the name of the secret used for the managed resource of networking mocknet
+	MocknetSecretName = "extension-networking-mocknet"
+	// MocknetReleaseName is the name of the Mocknet Release
 	MocknetReleaseName = "mocknet"
 	// MocknetConfigKey is the name of the key inside the mocknet config secret for storing the networking config.
 	MocknetConfigKey = "mocknet.yaml"
@@ -44,6 +44,6 @@ var (
 	ChartsPath = "charts"
 	// Interna1lChartsPath is the path to the internal charts
 	InternalChartsPath = filepath.Join(ChartsPath, "internal")
-	// MocknetChartPath path for internal Calico Chart
+	// MocknetChartPath is the path for internal Calico Chart
 	MocknetChartPath = filepath.Join(InternalChartsPath, "mocknet")
 )

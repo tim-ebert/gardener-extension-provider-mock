@@ -16,30 +16,21 @@ package network
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	extensionscontroller "github.com/gardener/gardener-extensions/pkg/controller"
-	resourcemanager "github.com/gardener/gardener-resource-manager/pkg/manager"
 	extensionsv1alpha1 "github.com/gardener/gardener/pkg/apis/extensions/v1alpha1"
 )
 
 // Delete implements Network.Actuator.
 func (a *actuator) Delete(ctx context.Context, network *extensionsv1alpha1.Network, cluster *extensionscontroller.Cluster) error {
-	if err := resourcemanager.
-		NewSecret(a.Client()).
-		WithNamespacedName(network.Namespace, mock.MocknetConfigSecretName).
-		Delete(ctx); err != nil {
-		return err
-	}
-	if err := resourcemanager.
-		NewManagedResource(a.Client()).
-		WithNamespacedName(network.Namespace, mock.MocknetConfigSecretName).
-		Delete(ctx); err != nil {
-		return err
+	if err := extensionscontroller.DeleteManagedResource(ctx, a.Client(), network.Namespace, mock.MocknetSecretName); err != nil {
+		return fmt.Errorf("failed to delete managed resource for mocknet network: %+v", err)
 	}
 
 	timeoutCtx, cancel := context.WithTimeout(ctx, 2*time.Minute)
 	defer cancel()
-	return extensionscontroller.WaitUntilManagedResourceDeleted(timeoutCtx, a.Client(), network.Namespace, mock.MocknetConfigSecretName)
+	return extensionscontroller.WaitUntilManagedResourceDeleted(timeoutCtx, a.Client(), network.Namespace, mock.MocknetSecretName)
 }
