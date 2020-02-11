@@ -4,16 +4,16 @@ metadata:
   name: mock-worker
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "mock-worker.labels" . | nindent 4 }}
+{{ include "mock-worker.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.nodeCount }}
   selector:
     matchLabels:
-      {{- include "mock-worker.selectorLabels" . | indent 6 }}
+{{ include "mock-worker.selectorLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        {{- include "mock-worker.selectorLabels" . | indent 8 }}
+{{ include "mock-worker.selectorLabels" . | indent 8 }}
         networking.gardener.cloud/from-prometheus: allowed
         networking.gardener.cloud/to-dns: allowed
         networking.gardener.cloud/to-private-networks: allowed

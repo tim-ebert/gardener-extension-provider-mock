@@ -14,7 +14,9 @@
 
 package mock
 
-import "path/filepath"
+import (
+	"path/filepath"
+)
 
 const (
 	// Name is the name of the Mock provider.
@@ -29,6 +31,15 @@ const (
 	MocknetReleaseName = "mocknet"
 	// MocknetConfigKey is the name of the key inside the mocknet config secret for storing the networking config.
 	MocknetConfigKey = "mocknet.yaml"
+
+	// MockWorkerSecretName is the name of the secret used for the managed resource for mock workers
+	MockWorkerSecretName = "extension-worker-mock"
+	// MockWorkerReleaseName is the name of the mock worker Release
+	MockWorkerReleaseName = "mock-worker"
+	// MockWorkerKey is the name of the key inside the mock worker secret for storing the rendered worker chart.
+	MockWorkerKey = "mock-worker.yaml"
+	// BootstrapTokenSecretName is the name of the secret used for the managed resource for bootstrap token for mock workers
+	BootstrapTokenSecretName = "extension-worker-mock-bootstrap-token"
 
 	// ImageNames
 	CalicoCNIImageName                         = "calico-cni"
@@ -46,4 +57,6 @@ var (
 	InternalChartsPath = filepath.Join(ChartsPath, "internal")
 	// MocknetChartPath is the path for internal Calico Chart
 	MocknetChartPath = filepath.Join(InternalChartsPath, "mocknet")
+	// MockWorkerChartPath is the path for internal Mock Worker Chart
+	MockWorkerChartPath = filepath.Join(InternalChartsPath, "mock-worker")
 )
