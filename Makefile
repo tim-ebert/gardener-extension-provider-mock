@@ -30,7 +30,10 @@ WORKER_DEPLOY_CRDS          := false
 
 WEBHOOK_PORT        := 9443
 WEBHOOK_CONFIG_MODE	:= url
-WEBHOOK_CONFIG_URL	:= docker.for.mac.localhost
+# 10.0.2.2 is the default NAT gateway IP address in virtualbox, use this to reach the webhook running on your host
+# from inside the minikube cluster
+# if you are using a docker-for-mac kubernetes cluster, use docker.for.mac.localhost to reach your host
+WEBHOOK_CONFIG_URL	:= 10.0.2.2
 EXTENSION_NAMESPACE	:=
 
 WEBHOOK_PARAM := --webhook-config-url=$(WEBHOOK_CONFIG_URL)
@@ -125,3 +128,13 @@ start:
 		--webhook-config-server-port=$(WEBHOOK_PORT) \
 		--webhook-config-mode=$(WEBHOOK_CONFIG_MODE) \
 		$(WEBHOOK_PARAM)
+
+### Minikube commands
+
+.PHONY: minikube-start
+minikube-start:
+	@./hack/minikube-start
+
+.PHONY: minikube-stop
+minikube-stop:
+	@./hack/minikube-stop
