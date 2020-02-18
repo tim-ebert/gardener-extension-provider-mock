@@ -4,6 +4,7 @@
 /local
 **/dev
 /bin
+/tls
 
 .vscode
 .idea
