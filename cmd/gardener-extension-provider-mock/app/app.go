@@ -20,12 +20,12 @@ import (
 	"os"
 
 	mockinstall "github.com/gardener/gardener-extension-provider-mock/pkg/apis/mock/install"
-	mockoperatingsystemconfig "github.com/gardener/gardener-extension-provider-mock/pkg/controller/operatingsystemconfig"
 	mockcmd "github.com/gardener/gardener-extension-provider-mock/pkg/cmd"
 	mockcontrolplane "github.com/gardener/gardener-extension-provider-mock/pkg/controller/controlplane"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/controller/healthcheck"
 	mockinfrastructure "github.com/gardener/gardener-extension-provider-mock/pkg/controller/infrastructure"
 	mocknetwork "github.com/gardener/gardener-extension-provider-mock/pkg/controller/network"
+	mockoperatingsystemconfig "github.com/gardener/gardener-extension-provider-mock/pkg/controller/operatingsystemconfig"
 	mockworker "github.com/gardener/gardener-extension-provider-mock/pkg/controller/worker"
 	"github.com/gardener/gardener-extension-provider-mock/pkg/mock"
 	mockcontrolplanebackup "github.com/gardener/gardener-extension-provider-mock/pkg/webhook/controlplanebackup"

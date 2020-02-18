@@ -45,7 +45,7 @@ endif
 
 .PHONY: format
 format:
-	@$(REPO_ROOT)/vendor/github.com/gardener/gardener-extensions/hack/format.sh .
+	@$(REPO_ROOT)/vendor/github.com/gardener/gardener-extensions/hack/format.sh ./cmd ./pkg
 
 .PHONY: clean
 clean:

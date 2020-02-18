@@ -67,8 +67,7 @@ func (a *actuator) Reconcile(ctx context.Context, worker *extensionsv1alpha1.Wor
 		WithNamespacedName(worker.Namespace, mock.MockWorkerSecretName).
 		WithSecretRefs([]corev1.LocalObjectReference{{Name: mock.MockWorkerSecretName}}).
 		WithClass(v1beta1constants.SeedResourceManagerClass).
-		Reconcile(ctx)
-		err != nil {
+		Reconcile(ctx); err != nil {
 		return err
 	}
 

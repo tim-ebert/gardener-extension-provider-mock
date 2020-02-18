@@ -68,8 +68,7 @@ func RegisterHealthChecks(mgr manager.Manager, opts healthcheck.DefaultAddArgs) 
 		mgr,
 		opts,
 		exposurePredicate,
-		map[healthcheck.HealthCheck]string{
-		}); err != nil {
+		map[healthcheck.HealthCheck]string{}); err != nil {
 		return err
 	}
 
@@ -81,7 +80,7 @@ func RegisterHealthChecks(mgr manager.Manager, opts healthcheck.DefaultAddArgs) 
 		opts,
 		nil,
 		map[healthcheck.HealthCheck]string{
-			worker.NewSufficientNodesChecker():                                        string(gardencorev1beta1.ShootEveryNodeReady),
+			worker.NewSufficientNodesChecker(): string(gardencorev1beta1.ShootEveryNodeReady),
 		})
 }
 
