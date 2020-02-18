@@ -1,0 +1,22 @@
+{
+    "CN": "Mock Provider",
+    "hosts": [
+      "docker.for.mac.localhost",
+      "gardener-extension-provider-mock",
+      "gardener-extension-provider-mock.garden",
+      "gardener-extension-provider-mock.garden.svc",
+      "10.0.2.2"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "US",
+            "ST": "CA",
+            "L": "San Francisco"
+        }
+    ]
+}
+
