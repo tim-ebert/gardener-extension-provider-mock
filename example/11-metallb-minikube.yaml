@@ -303,4 +303,4 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 192.168.99.150-192.168.99.199
+      - 192.168.99.50-192.168.99.99 # minikube with virtual box driver uses 192.168.99.100-254 by default for VM address
