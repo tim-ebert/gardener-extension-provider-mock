@@ -27,7 +27,19 @@ if [ `minikube status 2>/dev/null | grep host | awk '{print $2}'` = "Running" ] 
   echo "minikube already running"
 else
   echo "> starting minikube with virtualbox driver"
-  minikube start --cpus 6 --memory 20000mb --vm-driver virtualbox --embed-certs --wait
+  # TODO: use node overcommitment to use smaller VM size
+  # see: https://github.com/kubernetes/kubernetes/pull/86357
+  minikube start \
+    --cpus 6 \
+    --memory 18gb \
+    --vm-driver virtualbox \
+    --embed-certs \
+    --kubernetes-version=1.16.7 \
+    --host-only-cidr='192.168.99.1/24' \
+    --extra-config='kubeadm.pod-network-cidr=172.17.0.0/16' \
+    --alsologtostderr=true \
+    --v=10 \
+    --wait=true --wait-timeout=5m
 fi
 
 echo "> installing MetalLB in minikube cluster"
