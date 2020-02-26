@@ -70,7 +70,7 @@ github.com/gardener/gardener/pkg/utils/kubernetes/health
 github.com/gardener/gardener/pkg/utils/retry
 github.com/gardener/gardener/pkg/utils/secrets
 github.com/gardener/gardener/pkg/utils/version
-# github.com/gardener/gardener-extensions v1.3.0 => ../gardener-extensions
+# github.com/gardener/gardener-extensions v1.3.1-0.20200219062036-34828bfa3f26
 github.com/gardener/gardener-extensions/hack
 github.com/gardener/gardener-extensions/hack/.ci
 github.com/gardener/gardener-extensions/hack/api-reference/template
